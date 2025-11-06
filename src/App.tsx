@@ -8,6 +8,7 @@ function App() {
 
   return (
     <>
+      <NavBar />
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -33,3 +34,12 @@ function App() {
 }
 
 export default App
+
+
+const NavBar = () => {
+  return (
+    <div className="bg-blue-500">
+      <h1 className="text-white">NavBar</h1>
+    </div>
+  )
+}
