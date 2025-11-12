@@ -1,5 +1,5 @@
 import { useLocation, Routes, Route } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { AboutPage } from "../pages/About";
 import { ProjectPage } from "../pages/Projects";
 import { ContactPage } from "../pages/Contact";
@@ -17,12 +17,17 @@ export const PageTransition = () => {
 	// Get the current route location from React Router
 	const location = useLocation();
 
+	// Use React 19's useTransition to mark navigation updates as non-urgent
+	// This keeps the UI responsive during page transitions
+	const [isPending, startTransition] = useTransition();
+
 	// Track the location that's currently being displayed (may lag behind during transitions)
 	// This allows us to keep the old page visible while animating out
 	const [displayLocation, setDisplayLocation] = useState(location);
 
 	// Track whether we're in the "entering" or "exiting" phase of the animation
-	const [transitionStage, setTransitionStage] = useState<
+	// Note: Currently set but not used in rendering - available for future enhancements
+	const [_transitionStage, setTransitionStage] = useState<
 		"entering" | "exiting"
 	>("entering");
 
@@ -43,16 +48,22 @@ export const PageTransition = () => {
 
 		// If the route has changed, trigger the exit animation
 		// The old page will animate out, then onExited() will be called to update displayLocation
+		// Wrap in startTransition to mark this as a non-urgent update
 		if (location.pathname !== displayLocation.pathname) {
-			setTransitionStage("exiting");
+			startTransition(() => {
+				setTransitionStage("exiting");
+			});
 		}
-	}, [location, displayLocation]);
+	}, [location, displayLocation, startTransition]);
 
 	// Called when the exit animation completes
 	// This updates displayLocation to match the current location, which triggers the enter animation
+	// Wrap in startTransition to mark this as a non-urgent update
 	const onExited = () => {
-		setDisplayLocation(location); // Now displayLocation matches location
-		setTransitionStage("entering"); // Start the enter animation
+		startTransition(() => {
+			setDisplayLocation(location); // Now displayLocation matches location
+			setTransitionStage("entering"); // Start the enter animation
+		});
 	};
 
 	// Check if we're currently in the middle of a transition
@@ -60,7 +71,11 @@ export const PageTransition = () => {
 	const isTransitioning = location.pathname !== displayLocation.pathname;
 
 	return (
-		<div className='page-transition-container'>
+		<div
+			className={`page-transition-container ${
+				isPending ? "transition-pending" : ""
+			}`}
+			aria-busy={isPending}>
 			{/* Previous page (exiting) - only rendered during transition */}
 			{/* This div contains the old page content and animates it out */}
 			{isTransitioning && (
