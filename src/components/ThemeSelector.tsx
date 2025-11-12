@@ -1,0 +1,56 @@
+import { useState, useRef, useEffect } from "react";
+import { useTheme, type Theme } from "../context/themeProvider";
+
+export const ThemeSelector = () => {
+	const { theme, setTheme, themes } = useTheme();
+	const [isOpen, setIsOpen] = useState(false);
+	const dropdownRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			if (
+				dropdownRef.current &&
+				!dropdownRef.current.contains(event.target as Node)
+			) {
+				setIsOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
+
+	const getThemeLabel = (themeName: Theme) => {
+		return themeName.charAt(0).toUpperCase() + themeName.slice(1);
+	};
+
+	return (
+		<div className='relative' ref={dropdownRef}>
+			<button
+				onClick={() => setIsOpen(!isOpen)}
+				className='flex items-center px-2 rounded-lg bg-theme-secondary border border-theme text-theme-primary hover:opacity-80 transition-opacity'
+				title='Select Theme'>
+				<span className='hidden sm:inline'>{getThemeLabel(theme)}</span>
+			</button>
+
+			{isOpen && (
+				<div className='absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-theme-secondary border border-theme z-50 overflow-hidden'>
+					{themes.map(themeOption => (
+						<button
+							key={themeOption}
+							onClick={() => {
+								setTheme(themeOption);
+								setIsOpen(false);
+							}}
+							className={`w-full flex items-center gap-3 px-4 py-3 text-left text-theme-primary hover:bg-opacity-50 transition-colors ${
+								theme === themeOption ? "bg-theme-accent bg-opacity-20" : ""
+							}`}>
+							<span>{getThemeLabel(themeOption)}</span>
+							{theme === themeOption && <span className='ml-auto'>✓</span>}
+						</button>
+					))}
+				</div>
+			)}
+		</div>
+	);
+};

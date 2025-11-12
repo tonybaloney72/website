@@ -11,7 +11,7 @@ function App() {
 	return (
 		<BrowserRouter>
 			<ThemeProvider>
-				<div className='bg-gray-200 dark:bg-gray-800 min-h-screen'>
+				<div className='bg-theme-primary min-h-screen'>
 					<NavBar />
 					<Routes>
 						<Route path='/' element={<HomePage />} />

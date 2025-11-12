@@ -3,13 +3,94 @@
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
+[data-theme="light"] {
+	--bg-primary: #f3f4f6;
+	--bg-secondary: #ffffff;
+	--text-primary: #111827;
+	--text-secondary: #6b7280;
+	--accent: #3b82f6;
+	--accent-hover: #2563eb;
+	--border: #e5e7eb;
+}
+
+[data-theme="dark"] {
+	--bg-primary: #1f2937;
+	--bg-secondary: #111827;
+	--text-primary: #f9fafb;
+	--text-secondary: #d1d5db;
+	--accent: #60a5fa;
+	--accent-hover: #3b82f6;
+	--border: #374151;
+}
+
+[data-theme="blue"] {
+	--bg-primary: #1e3a8a;
+	--bg-secondary: #1e40af;
+	--text-primary: #ffffff;
+	--text-secondary: #dbeafe;
+	--accent: #60a5fa;
+	--accent-hover: #3b82f6;
+	--border: #3b82f6;
+}
+
+[data-theme="green"] {
+	--bg-primary: #065f46;
+	--bg-secondary: #047857;
+	--text-primary: #ffffff;
+	--text-secondary: #d1fae5;
+	--accent: #34d399;
+	--accent-hover: #10b981;
+	--border: #10b981;
+}
+
+[data-theme="purple"] {
+	--bg-primary: #581c87;
+	--bg-secondary: #6b21a8;
+	--text-primary: #ffffff;
+	--text-secondary: #e9d5ff;
+	--accent: #a78bfa;
+	--accent-hover: #8b5cf6;
+	--border: #8b5cf6;
+}
+
+[data-theme="orange"] {
+	--bg-primary: #7c2d12;
+	--bg-secondary: #9a3412;
+	--text-primary: #ffffff;
+	--text-secondary: #fed7aa;
+	--accent: #fb923c;
+	--accent-hover: #f97316;
+	--border: #f97316;
+}
+
 @layer components {
+	.bg-theme-primary {
+		background-color: var(--bg-primary);
+	}
+
+	.bg-theme-secondary {
+		background-color: var(--bg-secondary);
+	}
+
+	.text-theme-primary {
+		color: var(--text-primary);
+	}
+
+	.text-theme-secondary {
+		color: var(--text-secondary);
+	}
+
+	.border-theme {
+		border-color: var(--border);
+	}
+
 	.underline-animation {
 		@apply relative;
 	}
 
 	.underline-animation::after {
-		@apply absolute content-[''] w-full h-1 left-0 bottom-[-4px] bg-gray-500 scale-x-0 origin-bottom-right transition-transform duration-300;
+		@apply absolute content-[''] w-full h-1 left-0 bottom-[-4px] scale-x-0 origin-bottom-right transition-transform duration-300;
+		background-color: var(--accent);
 	}
 
 	.underline-animation:hover::after {
