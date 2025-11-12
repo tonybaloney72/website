@@ -1,11 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ThemeSelector } from "./ThemeSelector";
 
 export const NavBar = () => (
 	<div className='flex items-center h-16 px-6 w-full'>
 		<div className='flex-1'></div>
 		<div className='flex justify-center items-center gap-8 flex-1'>
-			<NavLink name='Home' />
 			<NavLink name='About' />
 			<NavLink name='Projects' />
 			<NavLink name='Contact' />
@@ -21,17 +20,18 @@ interface NavLinkProps {
 }
 
 const NAVMAP = {
-	Home: "/",
-	About: "/about",
+	About: "/",
 	Projects: "/projects",
 	Contact: "/contact",
 };
 
 const NavLink = ({ name }: NavLinkProps) => {
 	const nav = useNavigate();
+	const location = useLocation();
+	const route = NAVMAP[name as keyof typeof NAVMAP];
+	const isActive = location.pathname === route;
 
 	const handleClick = () => {
-		const route = NAVMAP[name as keyof typeof NAVMAP];
 		if (route) {
 			nav(route);
 		}
@@ -41,7 +41,9 @@ const NavLink = ({ name }: NavLinkProps) => {
 		<button
 			className='text-3xl text-theme-primary hover:cursor-pointer'
 			onClick={handleClick}>
-			<span className='underline-animation'>{name}</span>
+			<span className={`underline-animation ${isActive ? "active" : ""}`}>
+				{name}
+			</span>
 		</button>
 	);
 };
