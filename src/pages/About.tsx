@@ -1,4 +1,4 @@
-// import { FaLongArrowAltDown } from "react-icons/fa";
+import { motion } from "motion/react";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
@@ -21,7 +21,9 @@ export const AboutPage = () => {
 	return (
 		<div className='flex flex-col gap-10 items-center'>
 			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-6 md:gap-12 max-w-[1280px]'>
-				<img
+				<motion.img
+					initial={{ scale: 0 }}
+					animate={{ scale: 1 }}
 					src={pensive_carribean}
 					className='w-1/2 max-w-[360px] min-w-[180px] border-2 border-accent-hover'
 				/>
@@ -56,11 +58,6 @@ export const AboutPage = () => {
 					</div>
 				</div>
 			</div>
-			{/* <div className='flex justify-center px-6 py-8 gap-12 max-w-[1280px]'>
-				<p className='text-3xl text-primary'>
-					<FaLongArrowAltDown />
-				</p>
-			</div> */}
 		</div>
 	);
 };

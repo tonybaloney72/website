@@ -6,8 +6,10 @@
 [data-theme="light"] {
 	--bg-primary: #f3f4f6;
 	--bg-secondary: #ffffff;
+	--bg-tertiary: #e5e7eb;
 	--text-primary: #111827;
 	--text-secondary: #6b7280;
+	--text-tertiary: #9ca3af;
 	--accent: #3b82f6;
 	--accent-hover: #2563eb;
 	--border: #e5e7eb;
@@ -16,8 +18,10 @@
 [data-theme="dark"] {
 	--bg-primary: #1f2937;
 	--bg-secondary: #111827;
+	--bg-tertiary: #374151;
 	--text-primary: #f9fafb;
 	--text-secondary: #d1d5db;
+	--text-tertiary: #9ca3af;
 	--accent: #60a5fa;
 	--accent-hover: #3b82f6;
 	--border: #374151;
@@ -26,8 +30,10 @@
 [data-theme="blue"] {
 	--bg-primary: #1e3a8a;
 	--bg-secondary: #1e40af;
+	--bg-tertiary: #1e3a8a;
 	--text-primary: #ffffff;
 	--text-secondary: #dbeafe;
+	--text-tertiary: #93c5fd;
 	--accent: #60a5fa;
 	--accent-hover: #3b82f6;
 	--border: #3b82f6;
@@ -36,8 +42,10 @@
 [data-theme="green"] {
 	--bg-primary: #065f46;
 	--bg-secondary: #047857;
+	--bg-tertiary: #064e3b;
 	--text-primary: #ffffff;
 	--text-secondary: #d1fae5;
+	--text-tertiary: #6ee7b7;
 	--accent: #34d399;
 	--accent-hover: #10b981;
 	--border: #10b981;
@@ -46,8 +54,10 @@
 [data-theme="purple"] {
 	--bg-primary: #581c87;
 	--bg-secondary: #6b21a8;
+	--bg-tertiary: #4c1d95;
 	--text-primary: #ffffff;
 	--text-secondary: #e9d5ff;
+	--text-tertiary: #c4b5fd;
 	--accent: #a78bfa;
 	--accent-hover: #8b5cf6;
 	--border: #8b5cf6;
@@ -56,8 +66,10 @@
 [data-theme="orange"] {
 	--bg-primary: #7c2d12;
 	--bg-secondary: #9a3412;
+	--bg-tertiary: #6b1f0f;
 	--text-primary: #ffffff;
 	--text-secondary: #fed7aa;
+	--text-tertiary: #fdba74;
 	--accent: #fb923c;
 	--accent-hover: #f97316;
 	--border: #f97316;
@@ -72,12 +84,20 @@
 	background-color: var(--bg-secondary);
 }
 
+@utility bg-tertiary {
+	background-color: var(--bg-tertiary);
+}
+
 @utility bg-text-primary {
 	background-color: var(--text-primary);
 }
 
 @utility bg-text-secondary {
 	background-color: var(--text-secondary);
+}
+
+@utility bg-text-tertiary {
+	background-color: var(--text-tertiary);
 }
 
 @utility bg-accent {
@@ -101,12 +121,20 @@
 	color: var(--text-secondary);
 }
 
+@utility text-tertiary {
+	color: var(--text-tertiary);
+}
+
 @utility text-bg-primary {
 	color: var(--bg-primary);
 }
 
 @utility text-bg-secondary {
 	color: var(--bg-secondary);
+}
+
+@utility text-bg-tertiary {
+	color: var(--bg-tertiary);
 }
 
 @utility text-accent {
@@ -130,12 +158,20 @@
 	border-color: var(--bg-secondary);
 }
 
+@utility border-tertiary {
+	border-color: var(--bg-tertiary);
+}
+
 @utility border-text-primary {
 	border-color: var(--text-primary);
 }
 
 @utility border-text-secondary {
 	border-color: var(--text-secondary);
+}
+
+@utility border-text-tertiary {
+	border-color: var(--text-tertiary);
 }
 
 @utility border-accent {
@@ -250,22 +286,6 @@
 		to {
 			opacity: 1;
 			transform: translateY(0);
-		}
-	}
-
-	/* Todo item exit animation */
-	.todo-exit {
-		animation: todo-slide-out-left 0.3s ease-in forwards;
-	}
-
-	@keyframes todo-slide-out-left {
-		from {
-			opacity: 1;
-			transform: translateX(0);
-		}
-		to {
-			opacity: 0;
-			transform: translateX(-100%);
 		}
 	}
 }
