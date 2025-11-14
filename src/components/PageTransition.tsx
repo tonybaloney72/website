@@ -99,7 +99,7 @@ export const PageTransition = () => {
 					// Only apply entering animation class if we're transitioning
 					// If not transitioning, the page is already visible (no animation needed)
 					isTransitioning ? "page-transition-entering" : ""
-				}`}>
+				} p-6 md:p-10`}>
 				{/* Render the new page using location (the route we're navigating to) */}
 				<Routes location={location}>
 					<Route path='/' element={<AboutPage />} />

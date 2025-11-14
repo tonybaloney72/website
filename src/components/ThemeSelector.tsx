@@ -28,7 +28,7 @@ export const ThemeSelector = () => {
 		<div className='relative' ref={dropdownRef}>
 			<button
 				onClick={() => setIsOpen(!isOpen)}
-				className='flex items-center px-2 rounded-lg bg-theme-secondary border border-theme text-theme-primary hover:opacity-80 transition-opacity hover:cursor-pointer'
+				className='flex items-center px-2 rounded-lg bg-secondary border border-border text-primary hover:opacity-80 transition-opacity hover:cursor-pointer'
 				title='Select Theme'>
 				<span className='sm:inline text-sm md:text-base'>
 					{getThemeLabel(theme)}
@@ -36,7 +36,7 @@ export const ThemeSelector = () => {
 			</button>
 
 			{isOpen && (
-				<div className='absolute right-0 mt-2 w-30 md:w-48 rounded-lg shadow-lg bg-theme-secondary border border-theme z-50 overflow-hidden'>
+				<div className='absolute right-0 mt-2 w-30 md:w-48 rounded-lg shadow-lg bg-secondary border border-border z-50 overflow-hidden'>
 					{themes.map(themeOption => (
 						<button
 							key={themeOption}
@@ -44,9 +44,9 @@ export const ThemeSelector = () => {
 								setTheme(themeOption);
 								setIsOpen(false);
 							}}
-							className={`w-full flex items-center gap-3 px-4 py-3 text-left text-theme-primary hover:bg-opacity-50 transition-colors ${
-								theme === themeOption ? "bg-theme-accent bg-opacity-20" : ""
-							} hover:cursor-pointer hover:bg-(--accent-hover)`}>
+							className={`w-full flex items-center gap-3 px-4 py-3 text-left text-primary hover:bg-opacity-50 transition-colors ${
+								theme === themeOption ? "bg-accent bg-opacity-20" : ""
+							} hover:cursor-pointer hover:bg-accent-hover`}>
 							<span>{getThemeLabel(themeOption)}</span>
 							{theme === themeOption && <span className='ml-auto'>✓</span>}
 						</button>

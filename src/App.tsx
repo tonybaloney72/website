@@ -8,7 +8,7 @@ function App() {
 	return (
 		<BrowserRouter>
 			<ThemeProvider>
-				<div className='bg-theme-primary min-h-screen'>
+				<div className='bg-primary min-h-screen'>
 					<NavBar />
 					<PageTransition />
 				</div>

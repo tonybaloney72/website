@@ -4,7 +4,7 @@ import { ThemeSelector } from "./ThemeSelector";
 
 export const NavBar = () => (
 	<div className='flex items-center h-16 md:h-24 p-2 md:p-6 w-full'>
-		<div className='md:flex flex-1 text-theme-secondary text-lg'>
+		<div className='md:flex flex-1 text-secondary text-lg'>
 			<span className='hidden sm:block'>Anthony Bologna</span>
 		</div>
 		<div className='flex justify-center items-center gap-4 md:gap-8 flex-1'>
@@ -45,7 +45,7 @@ const NavLink = ({ name }: NavLinkProps) => {
 
 	return (
 		<button
-			className='text-xl md:text-3xl text-theme-primary hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+			className='text-xl md:text-3xl text-primary hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
 			onClick={handleClick}
 			disabled={isPending && !isActive}>
 			<span className={`underline-animation ${isActive ? "active" : ""}`}>

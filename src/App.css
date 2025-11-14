@@ -63,27 +63,94 @@
 	--border: #f97316;
 }
 
-@layer components {
-	.bg-theme-primary {
-		background-color: var(--bg-primary);
-	}
+/* Background utilities */
+@utility bg-primary {
+	background-color: var(--bg-primary);
+}
 
-	.bg-theme-secondary {
-		background-color: var(--bg-secondary);
-	}
+@utility bg-secondary {
+	background-color: var(--bg-secondary);
+}
 
-	.text-theme-primary {
-		color: var(--text-primary);
-	}
+@utility bg-text-primary {
+	background-color: var(--text-primary);
+}
 
-	.text-theme-secondary {
-		color: var(--text-secondary);
-	}
+@utility bg-text-secondary {
+	background-color: var(--text-secondary);
+}
 
-	.border-theme {
-		border-color: var(--border);
-	}
+@utility bg-accent {
+	background-color: var(--accent);
+}
 
+@utility bg-accent-hover {
+	background-color: var(--accent-hover);
+}
+
+@utility bg-border {
+	background-color: var(--border);
+}
+
+/* Text utilities */
+@utility text-primary {
+	color: var(--text-primary);
+}
+
+@utility text-secondary {
+	color: var(--text-secondary);
+}
+
+@utility text-bg-primary {
+	color: var(--bg-primary);
+}
+
+@utility text-bg-secondary {
+	color: var(--bg-secondary);
+}
+
+@utility text-accent {
+	color: var(--accent);
+}
+
+@utility text-accent-hover {
+	color: var(--accent-hover);
+}
+
+@utility text-border {
+	color: var(--border);
+}
+
+/* Border utilities */
+@utility border-primary {
+	border-color: var(--bg-primary);
+}
+
+@utility border-secondary {
+	border-color: var(--bg-secondary);
+}
+
+@utility border-text-primary {
+	border-color: var(--text-primary);
+}
+
+@utility border-text-secondary {
+	border-color: var(--text-secondary);
+}
+
+@utility border-accent {
+	border-color: var(--accent);
+}
+
+@utility border-accent-hover {
+	border-color: var(--accent-hover);
+}
+
+@utility border-border {
+	border-color: var(--border);
+}
+
+@layer utilities {
 	.underline-animation {
 		@apply relative;
 	}
