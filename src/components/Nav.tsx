@@ -33,7 +33,6 @@ const NavLink = ({ name }: NavLinkProps) => {
 	const route = NAVMAP[name as keyof typeof NAVMAP];
 	const isActive =
 		location.pathname === route || location.pathname.includes(route + "/");
-	console.log(location.pathname.includes(route));
 
 	const handleClick = () => {
 		if (route) {

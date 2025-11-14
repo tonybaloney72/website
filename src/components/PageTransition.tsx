@@ -80,7 +80,7 @@ export const PageTransition = () => {
 			{/* This div contains the old page content and animates it out */}
 			{isTransitioning && (
 				<div
-					className={`page-transition page-transition-${direction} page-transition-exiting`}
+					className={`page-transition page-transition-${direction} page-transition-exiting p-6 md:p-10`}
 					onAnimationEnd={() => {
 						// When exit animation finishes, update displayLocation and start enter animation
 						onExited();

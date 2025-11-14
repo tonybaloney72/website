@@ -236,4 +236,36 @@
 			opacity: 1;
 		}
 	}
+
+	/* Todo item enter animation */
+	.todo-enter {
+		animation: todo-slide-in 0.3s ease-out forwards;
+	}
+
+	@keyframes todo-slide-in {
+		from {
+			opacity: 0;
+			transform: translateY(-10px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	/* Todo item exit animation */
+	.todo-exit {
+		animation: todo-slide-out-left 0.3s ease-in forwards;
+	}
+
+	@keyframes todo-slide-out-left {
+		from {
+			opacity: 1;
+			transform: translateX(0);
+		}
+		to {
+			opacity: 0;
+			transform: translateX(-100%);
+		}
+	}
 }
