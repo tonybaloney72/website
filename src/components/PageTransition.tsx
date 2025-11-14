@@ -2,6 +2,7 @@ import { useLocation, Routes, Route } from "react-router-dom";
 import { useEffect, useState, useTransition } from "react";
 import { AboutPage } from "../pages/About";
 import { ProjectPage } from "../pages/Projects";
+import { ToDoList } from "../pages/ToDoList";
 
 // Define route order for determining slide direction
 // Routes with higher numbers slide in from the right (forward navigation)
@@ -9,7 +10,7 @@ import { ProjectPage } from "../pages/Projects";
 const ROUTE_ORDER: Record<string, number> = {
 	"/": 0, // About page - first in sequence
 	"/projects": 1, // Projects page - second in sequence
-	"/contact": 2, // Contact page - third in sequence
+	"/projects/todo": 2, // Contact page - third in sequence
 };
 
 export const PageTransition = () => {
@@ -87,7 +88,9 @@ export const PageTransition = () => {
 					{/* Render the old page using displayLocation (the route we're leaving) */}
 					<Routes location={displayLocation}>
 						<Route path='/' element={<AboutPage />} />
-						<Route path='/projects' element={<ProjectPage />} />
+						<Route path='/projects' element={<ProjectPage />}>
+							<Route path='todo' element={<ToDoList />} />
+						</Route>
 					</Routes>
 				</div>
 			)}
@@ -103,7 +106,9 @@ export const PageTransition = () => {
 				{/* Render the new page using location (the route we're navigating to) */}
 				<Routes location={location}>
 					<Route path='/' element={<AboutPage />} />
-					<Route path='/projects' element={<ProjectPage />} />
+					<Route path='/projects' element={<ProjectPage />}>
+						<Route path='todo' element={<ToDoList />} />
+					</Route>
 				</Routes>
 			</div>
 		</div>
