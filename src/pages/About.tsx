@@ -20,7 +20,7 @@ export const AboutPage = () => {
 
 	return (
 		<div className='flex flex-col gap-10 items-center'>
-			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center px-6 py-8 gap-6 md:gap-12 max-w-[1280px]'>
+			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center px-6 py-4 md:py-8 gap-6 md:gap-12 max-w-[1280px]'>
 				<img
 					src={pensive_carribean}
 					className='w-1/2 max-w-[360px] min-w-[180px] border-2 border-(--accent-hover)'

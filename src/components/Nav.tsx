@@ -3,8 +3,10 @@ import { useTransition } from "react";
 import { ThemeSelector } from "./ThemeSelector";
 
 export const NavBar = () => (
-	<div className='flex items-center h-24 p-6 w-full'>
-		<div className='flex-1 text-theme-secondary text-lg'>Anthony Bologna</div>
+	<div className='flex items-center h-16 md:h-24 p-2 md:p-6 w-full'>
+		<div className='md:flex flex-1 text-theme-secondary text-lg'>
+			<span className='hidden sm:block'>Anthony Bologna</span>
+		</div>
 		<div className='flex justify-center items-center gap-4 md:gap-8 flex-1'>
 			<NavLink name='About' />
 			<NavLink name='Projects' />

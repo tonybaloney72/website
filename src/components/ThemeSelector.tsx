@@ -30,11 +30,13 @@ export const ThemeSelector = () => {
 				onClick={() => setIsOpen(!isOpen)}
 				className='flex items-center px-2 rounded-lg bg-theme-secondary border border-theme text-theme-primary hover:opacity-80 transition-opacity hover:cursor-pointer'
 				title='Select Theme'>
-				<span className='hidden sm:inline'>{getThemeLabel(theme)}</span>
+				<span className='sm:inline text-sm md:text-base'>
+					{getThemeLabel(theme)}
+				</span>
 			</button>
 
 			{isOpen && (
-				<div className='absolute right-0 mt-2 w-48 rounded-lg shadow-lg bg-theme-secondary border border-theme z-50 overflow-hidden'>
+				<div className='absolute right-0 mt-2 w-30 md:w-48 rounded-lg shadow-lg bg-theme-secondary border border-theme z-50 overflow-hidden'>
 					{themes.map(themeOption => (
 						<button
 							key={themeOption}
