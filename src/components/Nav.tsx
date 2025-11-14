@@ -3,12 +3,11 @@ import { useTransition } from "react";
 import { ThemeSelector } from "./ThemeSelector";
 
 export const NavBar = () => (
-	<div className='flex items-center h-16 px-6 w-full'>
-		<div className='flex-1'></div>
+	<div className='flex items-center h-24 p-6 w-full'>
+		<div className='flex-1 text-theme-secondary text-xl'>Anthony Bologna</div>
 		<div className='flex justify-center items-center gap-8 flex-1'>
 			<NavLink name='About' />
 			<NavLink name='Projects' />
-			<NavLink name='Contact' />
 		</div>
 		<div className='flex-1 flex justify-end'>
 			<ThemeSelector />
@@ -23,7 +22,6 @@ interface NavLinkProps {
 const NAVMAP = {
 	About: "/",
 	Projects: "/projects",
-	Contact: "/contact",
 };
 
 const NavLink = ({ name }: NavLinkProps) => {

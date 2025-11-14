@@ -28,7 +28,7 @@ export const ThemeSelector = () => {
 		<div className='relative' ref={dropdownRef}>
 			<button
 				onClick={() => setIsOpen(!isOpen)}
-				className='flex items-center px-2 rounded-lg bg-theme-secondary border border-theme text-theme-primary hover:opacity-80 transition-opacity'
+				className='flex items-center px-2 rounded-lg bg-theme-secondary border border-theme text-theme-primary hover:opacity-80 transition-opacity hover:cursor-pointer'
 				title='Select Theme'>
 				<span className='hidden sm:inline'>{getThemeLabel(theme)}</span>
 			</button>
@@ -44,7 +44,7 @@ export const ThemeSelector = () => {
 							}}
 							className={`w-full flex items-center gap-3 px-4 py-3 text-left text-theme-primary hover:bg-opacity-50 transition-colors ${
 								theme === themeOption ? "bg-theme-accent bg-opacity-20" : ""
-							}`}>
+							} hover:cursor-pointer hover:bg-(--accent-hover)`}>
 							<span>{getThemeLabel(themeOption)}</span>
 							{theme === themeOption && <span className='ml-auto'>✓</span>}
 						</button>

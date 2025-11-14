@@ -2,7 +2,6 @@ import { useLocation, Routes, Route } from "react-router-dom";
 import { useEffect, useState, useTransition } from "react";
 import { AboutPage } from "../pages/About";
 import { ProjectPage } from "../pages/Projects";
-import { ContactPage } from "../pages/Contact";
 
 // Define route order for determining slide direction
 // Routes with higher numbers slide in from the right (forward navigation)
@@ -89,7 +88,6 @@ export const PageTransition = () => {
 					<Routes location={displayLocation}>
 						<Route path='/' element={<AboutPage />} />
 						<Route path='/projects' element={<ProjectPage />} />
-						<Route path='/contact' element={<ContactPage />} />
 					</Routes>
 				</div>
 			)}
@@ -106,7 +104,6 @@ export const PageTransition = () => {
 				<Routes location={location}>
 					<Route path='/' element={<AboutPage />} />
 					<Route path='/projects' element={<ProjectPage />} />
-					<Route path='/contact' element={<ContactPage />} />
 				</Routes>
 			</div>
 		</div>
