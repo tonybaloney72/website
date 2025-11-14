@@ -3,20 +3,19 @@ import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
 import pensive_carribean from "../assets/pensive_carribean.jpg";
+import resumePDF from "../assets/Anthony Bologna Resume.pdf";
 
 export const AboutPage = () => {
 	const handleClick = (num: number) => {
 		const numMap = {
 			1: "https://www.linkedin.com/in/anthony-michael-bologna/",
 			2: "https://github.com/tonybaloney72",
-			3: "download",
+			3: resumePDF,
 		} as const;
 
 		const url = numMap[num as keyof typeof numMap];
 
-		if (num !== 3) {
-			window.open(url, "_blank", "noopener,noreferrer");
-		}
+		window.open(url, "_blank", "noopener,noreferrer");
 	};
 
 	return (
@@ -55,11 +54,11 @@ export const AboutPage = () => {
 					</div>
 				</div>
 			</div>
-			<div className='flex justify-center px-6 py-8 gap-12 max-w-[1280px]'>
+			{/* <div className='flex justify-center px-6 py-8 gap-12 max-w-[1280px]'>
 				<p className='text-3xl text-theme-primary'>
 					<FaLongArrowAltDown />
 				</p>
-			</div>
+			</div> */}
 		</div>
 	);
 };
