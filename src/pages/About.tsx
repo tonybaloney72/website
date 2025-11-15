@@ -14,11 +14,17 @@ export const AboutPage = () => {
 	// Array of images to cycle through
 	const images = [pensive_carribean, beignets, bowtie, hike_look, ice_cream];
 
+	// Calculate initial random image index
+	const initialImageIndex = Math.floor(Math.random() * images.length);
+
 	// State to track current image index - start with random image
-	const [currentImageIndex, setCurrentImageIndex] = useState(() =>
-		Math.floor(Math.random() * images.length),
-	);
+	const [currentImageIndex, setCurrentImageIndex] = useState(initialImageIndex);
 	const [isHovering, setIsHovering] = useState(false);
+
+	// Track which images have been viewed
+	const [_viewedImages, setViewedImages] = useState<Set<number>>(
+		new Set([initialImageIndex]),
+	);
 
 	// Check localStorage to see if hint was previously dismissed
 	const [showHint, setShowHint] = useState(() => {
@@ -51,6 +57,21 @@ export const AboutPage = () => {
 		localStorage.setItem("imageCarouselHintDismissed", "true");
 	};
 
+	// Track when a new image is viewed
+	const markImageAsViewed = (imageIndex: number) => {
+		setViewedImages(prev => {
+			const updated = new Set(prev);
+			updated.add(imageIndex);
+
+			// If all images have been viewed, dismiss the hint
+			if (updated.size === images.length && showHint) {
+				dismissHint();
+			}
+
+			return updated;
+		});
+	};
+
 	// Track touch positions for swipe detection
 	const touchStartX = useRef<number | null>(null);
 	const touchEndX = useRef<number | null>(null);
@@ -61,16 +82,19 @@ export const AboutPage = () => {
 		if (!isHovering) return;
 
 		e.preventDefault();
-		if (showHint) dismissHint(); // Hide hint after interaction
 
 		// Scroll down = next image, scroll up = previous image
+		let newIndex: number;
 		if (e.deltaY > 0) {
 			// Scrolling down - next image
-			setCurrentImageIndex(prev => (prev + 1) % images.length);
+			newIndex = (currentImageIndex + 1) % images.length;
 		} else {
 			// Scrolling up - previous image
-			setCurrentImageIndex(prev => (prev - 1 + images.length) % images.length);
+			newIndex = (currentImageIndex - 1 + images.length) % images.length;
 		}
+
+		setCurrentImageIndex(newIndex);
+		markImageAsViewed(newIndex);
 	};
 
 	// Mobile: touch handlers for swipe gestures
@@ -89,16 +113,17 @@ export const AboutPage = () => {
 		const distance = touchStartX.current - touchEndX.current;
 
 		if (Math.abs(distance) > minSwipeDistance) {
-			if (showHint) dismissHint(); // Hide hint after interaction
+			let newIndex: number;
 			if (distance > 0) {
 				// Swipe left = next image
-				setCurrentImageIndex(prev => (prev + 1) % images.length);
+				newIndex = (currentImageIndex + 1) % images.length;
 			} else {
 				// Swipe right = previous image
-				setCurrentImageIndex(
-					prev => (prev - 1 + images.length) % images.length,
-				);
+				newIndex = (currentImageIndex - 1 + images.length) % images.length;
 			}
+
+			setCurrentImageIndex(newIndex);
+			markImageAsViewed(newIndex);
 		}
 	};
 
@@ -109,13 +134,15 @@ export const AboutPage = () => {
 		if (touchStartX.current && touchEndX.current) {
 			const swipeDistance = Math.abs(touchStartX.current - touchEndX.current);
 			if (swipeDistance < minSwipeDistance) {
-				if (showHint) dismissHint(); // Hide hint after interaction
-				setCurrentImageIndex(prev => (prev + 1) % images.length);
+				const newIndex = (currentImageIndex + 1) % images.length;
+				setCurrentImageIndex(newIndex);
+				markImageAsViewed(newIndex);
 			}
 		} else {
 			// If no touch interaction, allow click to cycle
-			if (showHint) dismissHint(); // Hide hint after interaction
-			setCurrentImageIndex(prev => (prev + 1) % images.length);
+			const newIndex = (currentImageIndex + 1) % images.length;
+			setCurrentImageIndex(newIndex);
+			markImageAsViewed(newIndex);
 		}
 	};
 
