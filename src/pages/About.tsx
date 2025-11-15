@@ -1,11 +1,124 @@
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
+import { useState, useRef, useEffect } from "react";
 import { FaLinkedin } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaFileDownload } from "react-icons/fa";
 import pensive_carribean from "../assets/pensive_carribean.jpg";
+import beignets from "../assets/beignets.jpg";
+import bowtie from "../assets/bowtie.jpg";
+import hike_look from "../assets/hike_look.jpg";
+import ice_cream from "../assets/ice_cream.jpg";
 import resumePDF from "../assets/Anthony Bologna Resume.pdf";
 
 export const AboutPage = () => {
+	// Array of images to cycle through
+	const images = [pensive_carribean, beignets, bowtie, hike_look, ice_cream];
+
+	// State to track current image index - start with random image
+	const [currentImageIndex, setCurrentImageIndex] = useState(() =>
+		Math.floor(Math.random() * images.length),
+	);
+	const [isHovering, setIsHovering] = useState(false);
+
+	// Check localStorage to see if hint was previously dismissed
+	const [showHint, setShowHint] = useState(() => {
+		const hintDismissed = localStorage.getItem("imageCarouselHintDismissed");
+		return hintDismissed !== "true";
+	});
+
+	// Listen for storage changes to update hint visibility
+	useEffect(() => {
+		const handleStorageChange = () => {
+			const hintDismissed = localStorage.getItem("imageCarouselHintDismissed");
+			setShowHint(hintDismissed !== "true");
+		};
+
+		// Listen for storage events (cross-tab)
+		window.addEventListener("storage", handleStorageChange);
+
+		// Listen for custom event (same-tab updates from Nav button)
+		window.addEventListener("hintToggle", handleStorageChange);
+
+		return () => {
+			window.removeEventListener("storage", handleStorageChange);
+			window.removeEventListener("hintToggle", handleStorageChange);
+		};
+	}, []);
+
+	// Save to localStorage when hint is dismissed
+	const dismissHint = () => {
+		setShowHint(false);
+		localStorage.setItem("imageCarouselHintDismissed", "true");
+	};
+
+	// Track touch positions for swipe detection
+	const touchStartX = useRef<number | null>(null);
+	const touchEndX = useRef<number | null>(null);
+	const minSwipeDistance = 50;
+
+	// Desktop: wheel scroll to cycle through images
+	const handleWheel = (e: React.WheelEvent) => {
+		if (!isHovering) return;
+
+		e.preventDefault();
+		if (showHint) dismissHint(); // Hide hint after interaction
+
+		// Scroll down = next image, scroll up = previous image
+		if (e.deltaY > 0) {
+			// Scrolling down - next image
+			setCurrentImageIndex(prev => (prev + 1) % images.length);
+		} else {
+			// Scrolling up - previous image
+			setCurrentImageIndex(prev => (prev - 1 + images.length) % images.length);
+		}
+	};
+
+	// Mobile: touch handlers for swipe gestures
+	const onTouchStart = (e: React.TouchEvent) => {
+		touchEndX.current = null; // Reset
+		touchStartX.current = e.targetTouches[0].clientX;
+	};
+
+	const onTouchMove = (e: React.TouchEvent) => {
+		touchEndX.current = e.targetTouches[0].clientX;
+	};
+
+	const onTouchEnd = () => {
+		if (!touchStartX.current || !touchEndX.current) return;
+
+		const distance = touchStartX.current - touchEndX.current;
+
+		if (Math.abs(distance) > minSwipeDistance) {
+			if (showHint) dismissHint(); // Hide hint after interaction
+			if (distance > 0) {
+				// Swipe left = next image
+				setCurrentImageIndex(prev => (prev + 1) % images.length);
+			} else {
+				// Swipe right = previous image
+				setCurrentImageIndex(
+					prev => (prev - 1 + images.length) % images.length,
+				);
+			}
+		}
+	};
+
+	// Fallback: tap to cycle (for accessibility and simple interaction)
+	const handleImageClick = () => {
+		// Only trigger on tap if no significant swipe occurred
+		// This prevents accidental clicks during swipe
+		if (touchStartX.current && touchEndX.current) {
+			const swipeDistance = Math.abs(touchStartX.current - touchEndX.current);
+			if (swipeDistance < minSwipeDistance) {
+				if (showHint) dismissHint(); // Hide hint after interaction
+				setCurrentImageIndex(prev => (prev + 1) % images.length);
+			}
+		} else {
+			// If no touch interaction, allow click to cycle
+			if (showHint) dismissHint(); // Hide hint after interaction
+			setCurrentImageIndex(prev => (prev + 1) % images.length);
+		}
+	};
+
 	const handleClick = (num: number) => {
 		const numMap = {
 			1: "https://www.linkedin.com/in/anthony-michael-bologna/",
@@ -20,16 +133,64 @@ export const AboutPage = () => {
 
 	return (
 		<div className='flex flex-col gap-10 items-center'>
-			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-6 md:gap-12 max-w-[1280px]'>
-				<motion.img
-					initial={{ scale: 0 }}
-					animate={{ scale: 1 }}
-					src={pensive_carribean}
-					className='w-1/2 max-w-[360px] min-w-[180px] border-2 border-accent-hover'
-				/>
-				<div className='text-primary max-w-[360px] flex flex-col items-center md:items-start'>
-					<p className='text-3xl md:text-4xl text-accent'>Anthony Bologna</p>
-					<p className='text-2xl md:text-3xl text-accent-hover'>
+			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-6 md:gap-12 max-w-[1280px] h-[480px]'>
+				<div className='w-1/2 h-full'>
+					<motion.div
+						initial={{ opacity: 0, y: 30 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.6, ease: "easeOut" }}
+						onMouseEnter={() => setIsHovering(true)}
+						onMouseLeave={() => setIsHovering(false)}
+						onWheel={handleWheel}
+						onTouchStart={onTouchStart}
+						onTouchMove={onTouchMove}
+						onTouchEnd={onTouchEnd}
+						onClick={handleImageClick}
+						className='max-w-[360px] min-w-[180px] hover:border-2 border-accent-secondary overflow-hidden relative cursor-pointer touch-none md:touch-auto h-fit w-full'>
+						<AnimatePresence mode='wait'>
+							<motion.img
+								key={currentImageIndex}
+								src={images[currentImageIndex]}
+								initial={{ opacity: 0, y: 20 }}
+								animate={{ opacity: 1, y: 0 }}
+								exit={{ opacity: 0, y: -20 }}
+								transition={{ duration: 0.3, ease: "easeInOut" }}
+								className='w-full h-auto object-cover pointer-events-none'
+								draggable={false}
+							/>
+						</AnimatePresence>
+					</motion.div>
+					{showHint && (
+						<motion.div
+							initial={{ opacity: 0, y: -10 }}
+							animate={{ opacity: 1, y: 0 }}
+							exit={{ opacity: 0, y: -10 }}
+							transition={{ duration: 0.3 }}
+							className='text-md text-secondary text-center px-3 py-1.5 rounded-lg bg-secondary/50 backdrop-blur-sm'>
+							<motion.span
+								animate={{
+									y: [0, -5, 0],
+								}}
+								transition={{
+									duration: 1.5,
+									repeat: Infinity,
+									ease: "easeInOut",
+								}}
+								className='inline-block bg-tertiary px-2 py-1 rounded-lg'>
+								Scroll or tap to change the image
+							</motion.span>
+						</motion.div>
+					)}
+				</div>
+				<motion.div
+					initial={{ opacity: 0, y: 30 }}
+					animate={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+					className='text-primary max-w-[360px] flex flex-col items-center md:items-start'>
+					<p className='text-3xl md:text-4xl text-accent-tertiary'>
+						Anthony Bologna
+					</p>
+					<p className='text-2xl md:text-3xl text-accent'>
 						Full Stack Engineer
 					</p>
 					<p className='text-xl md:text-2xl pt-1 md:pt-3'>Hello!</p>
@@ -42,21 +203,36 @@ export const AboutPage = () => {
 						challenge. me on.
 					</p>
 					<div className='mt-auto flex text-4xl gap-8 pt-2 md:pt-0'>
-						<FaLinkedin
-							className='hover:text-accent hover:cursor-pointer'
-							onClick={() => handleClick(1)}
-						/>
-						<FaGithub
-							className='hover:text-accent hover:cursor-pointer'
-							onClick={() => handleClick(2)}
-						/>
-						<FaFileDownload
-							className='hover:text-accent hover:cursor-pointer'
-							onClick={() => handleClick(3)}
-							title='Download Resume'
-						/>
+						<motion.button
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.95 }}
+							transition={{ duration: 0.2 }}>
+							<FaLinkedin
+								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
+								onClick={() => handleClick(1)}
+							/>
+						</motion.button>
+						<motion.button
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.95 }}
+							transition={{ duration: 0.2 }}>
+							<FaGithub
+								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
+								onClick={() => handleClick(2)}
+							/>
+						</motion.button>
+						<motion.button
+							whileHover={{ scale: 1.1 }}
+							whileTap={{ scale: 0.95 }}
+							transition={{ duration: 0.2 }}>
+							<FaFileDownload
+								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
+								onClick={() => handleClick(3)}
+								title='Download Resume'
+							/>
+						</motion.button>
 					</div>
-				</div>
+				</motion.div>
 			</div>
 		</div>
 	);

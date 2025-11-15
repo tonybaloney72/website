@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTheme, type Theme } from "../context/themeProvider";
+import { motion } from "motion/react";
 
 export const ThemeSelector = () => {
 	const { theme, setTheme, themes } = useTheme();
@@ -36,7 +37,12 @@ export const ThemeSelector = () => {
 			</button>
 
 			{isOpen && (
-				<div className='absolute right-0 mt-2 w-30 md:w-48 rounded-lg shadow-lg bg-secondary border border-border z-50 overflow-hidden'>
+				<motion.div
+					initial={{ opacity: 0, y: -10 }}
+					animate={{ opacity: 1, y: 0 }}
+					exit={{ opacity: 0, y: -10 }}
+					transition={{ duration: 0.2, ease: "easeInOut" }}
+					className='absolute right-0 mt-2 w-30 md:w-48 rounded-lg shadow-lg bg-secondary border border-border z-50 overflow-hidden'>
 					{themes.map(themeOption => (
 						<button
 							key={themeOption}
@@ -46,12 +52,12 @@ export const ThemeSelector = () => {
 							}}
 							className={`w-full flex items-center gap-3 px-4 py-3 text-left text-primary hover:bg-opacity-50 transition-colors ${
 								theme === themeOption ? "bg-accent bg-opacity-20" : ""
-							} hover:cursor-pointer hover:bg-accent-hover`}>
+							} hover:cursor-pointer hover:bg-accent-secondary`}>
 							<span>{getThemeLabel(themeOption)}</span>
 							{theme === themeOption && <span className='ml-auto'>✓</span>}
 						</button>
 					))}
-				</div>
+				</motion.div>
 			)}
 		</div>
 	);

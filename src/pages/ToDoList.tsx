@@ -132,7 +132,7 @@ export const ToDoList = () => {
 				/>
 				<button
 					onClick={addTodo}
-					className='text-bg-secondary px-4 py-2 bg-accent hover:bg-accent-hover hover:transition duration-300 hover:cursor-pointer rounded-lg'>
+					className='text-bg-secondary px-4 py-2 bg-accent hover:bg-accent-secondary hover:transition duration-300 hover:cursor-pointer rounded-lg'>
 					Add To-Do
 				</button>
 				<button
@@ -168,7 +168,7 @@ export const ToDoList = () => {
 								<button
 									className={`hover:cursor-pointer hover:transition duration-300 ${
 										todo.completed
-											? "hover:text-accent-hover text-tertiary"
+											? "hover:text-accent-secondary text-tertiary"
 											: "hover:text-accent"
 									}`}
 									onClick={() => toggleComplete(todo.id)}>
