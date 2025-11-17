@@ -2,12 +2,12 @@ import { NavBar } from "./components/Nav.tsx";
 import { PageTransition } from "./components/PageTransition.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { ThemeProvider } from "./context/themeProvider.tsx";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import "./App.css";
 
 function App() {
 	return (
-		<BrowserRouter basename='/website'>
+		<HashRouter>
 			<ThemeProvider>
 				<div className='bg-primary min-h-screen flex flex-col'>
 					<NavBar />
@@ -17,7 +17,7 @@ function App() {
 					<Footer />
 				</div>
 			</ThemeProvider>
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 
