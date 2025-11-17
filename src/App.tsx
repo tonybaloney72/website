@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename='/website'>
 			<ThemeProvider>
 				<div className='bg-primary min-h-screen flex flex-col'>
 					<NavBar />
