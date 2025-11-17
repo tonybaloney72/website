@@ -1,12 +1,34 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaLinkedin, FaGithub, FaFileDownload } from "react-icons/fa";
+import type { IconType } from "react-icons";
 import pensive_carribean from "../assets/pensive_carribean.jpg";
 import beignets from "../assets/beignets.jpg";
 import bowtie from "../assets/bowtie.jpg";
 import hike_look from "../assets/hike_look.jpg";
 import ice_cream from "../assets/ice_cream.jpg";
 import resumePDF from "../assets/Anthony Bologna Resume.pdf";
+
+interface SocialButtonProps {
+	icon: IconType;
+	onClick: () => void;
+	title?: string;
+}
+
+const SocialButton = ({ icon: Icon, onClick, title }: SocialButtonProps) => {
+	return (
+		<motion.button
+			whileHover={{ scale: 1.08 }}
+			whileTap={{ scale: 0.96 }}
+			transition={{ duration: 0.2 }}>
+			<Icon
+				className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
+				onClick={onClick}
+				title={title}
+			/>
+		</motion.button>
+	);
+};
 
 export const AboutPage = () => {
 	// Array of images to cycle through
@@ -18,6 +40,9 @@ export const AboutPage = () => {
 	// State to track current image index - start with random image
 	const [currentImageIndex, setCurrentImageIndex] = useState(initialImageIndex);
 	const [isHovering, setIsHovering] = useState(false);
+	// State to track which images have loaded
+	const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+	const [isCurrentImageLoaded, setIsCurrentImageLoaded] = useState(false);
 
 	// State to control hint animation - only animate on first visit
 	const [shouldAnimateHint, setShouldAnimateHint] = useState(() => {
@@ -29,6 +54,39 @@ export const AboutPage = () => {
 	const touchStartX = useRef<number | null>(null);
 	const touchEndX = useRef<number | null>(null);
 	const minSwipeDistance = 50;
+
+	// Reset loading state when image index changes
+	useEffect(() => {
+		const isLoaded = loadedImages.has(currentImageIndex);
+		setIsCurrentImageLoaded(isLoaded);
+		// If image is already loaded, we can show it immediately
+		// Otherwise, wait for onLoad event (placeholder will show)
+	}, [currentImageIndex, loadedImages]);
+
+	// Preload all images
+	useEffect(() => {
+		images.forEach((imgSrc, index) => {
+			const img = new Image();
+			img.onload = () => {
+				setLoadedImages(prev => {
+					const newSet = new Set([...prev, index]);
+					// If this is the current image, mark it as loaded
+					if (index === currentImageIndex) {
+						setIsCurrentImageLoaded(true);
+					}
+					return newSet;
+				});
+			};
+			img.src = imgSrc;
+		});
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	// Handle image load
+	const handleImageLoad = () => {
+		setLoadedImages(prev => new Set([...prev, currentImageIndex]));
+		setIsCurrentImageLoaded(true);
+	};
 
 	const numMap = {
 		1: "https://www.linkedin.com/in/anthony-michael-bologna/",
@@ -122,18 +180,37 @@ export const AboutPage = () => {
 						onTouchMove={onTouchMove}
 						onTouchEnd={onTouchEnd}
 						onClick={handleImageClick}
-						className='max-w-[360px] min-w-[180px] hover:border-2 border-accent-secondary overflow-hidden relative cursor-pointer touch-none md:touch-auto h-fit w-full'>
+						className='max-w-[360px] min-w-[180px] hover:border-2 border-accent-secondary overflow-hidden relative cursor-pointer touch-none md:touch-auto w-full'>
+						{/* Loading placeholder - maintains space when image not loaded */}
+						{!isCurrentImageLoaded && (
+							<div className='w-full min-h-[480px] bg-tertiary flex items-center justify-center'>
+								<div className='w-16 h-16 border-4 border-accent-secondary border-t-transparent rounded-full animate-spin' />
+							</div>
+						)}
+						{/* Image - always in DOM to load, shown when ready */}
 						<AnimatePresence mode='wait'>
-							<motion.img
-								key={currentImageIndex}
-								src={images[currentImageIndex]}
-								initial={{ opacity: 0, y: 20 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: -20 }}
-								transition={{ duration: 0.3, ease: "easeInOut" }}
-								className='w-full h-auto object-cover pointer-events-none'
-								draggable={false}
-							/>
+							{isCurrentImageLoaded ? (
+								<motion.img
+									key={currentImageIndex}
+									src={images[currentImageIndex]}
+									initial={{ opacity: 0, y: 20 }}
+									animate={{ opacity: 1, y: 0 }}
+									exit={{ opacity: 0, y: -20 }}
+									transition={{ duration: 0.3, ease: "easeInOut" }}
+									className='w-full h-auto object-cover pointer-events-none'
+									draggable={false}
+								/>
+							) : (
+								// Hidden image element to trigger loading
+								<img
+									key={`loader-${currentImageIndex}`}
+									src={images[currentImageIndex]}
+									onLoad={handleImageLoad}
+									className='hidden'
+									alt=''
+									draggable={false}
+								/>
+							)}
 						</AnimatePresence>
 					</motion.div>
 					<motion.div
@@ -186,34 +263,13 @@ export const AboutPage = () => {
 						challenge. me on.
 					</p>
 					<div className='mt-auto flex text-4xl gap-8 pt-2 md:pt-0'>
-						<motion.button
-							whileHover={{ scale: 1.08 }}
-							whileTap={{ scale: 0.96 }}
-							transition={{ duration: 0.2 }}>
-							<FaLinkedin
-								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
-								onClick={() => handleClick(1)}
-							/>
-						</motion.button>
-						<motion.button
-							whileHover={{ scale: 1.08 }}
-							whileTap={{ scale: 0.96 }}
-							transition={{ duration: 0.2 }}>
-							<FaGithub
-								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
-								onClick={() => handleClick(2)}
-							/>
-						</motion.button>
-						<motion.button
-							whileHover={{ scale: 1.08 }}
-							whileTap={{ scale: 0.96 }}
-							transition={{ duration: 0.2 }}>
-							<FaFileDownload
-								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
-								onClick={() => handleClick(3)}
-								title='Download Resume'
-							/>
-						</motion.button>
+						<SocialButton icon={FaLinkedin} onClick={() => handleClick(1)} />
+						<SocialButton icon={FaGithub} onClick={() => handleClick(2)} />
+						<SocialButton
+							icon={FaFileDownload}
+							onClick={() => handleClick(3)}
+							title='Download Resume'
+						/>
 					</div>
 				</motion.div>
 			</div>
