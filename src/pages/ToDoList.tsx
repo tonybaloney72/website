@@ -31,7 +31,7 @@ export const ToDoList = () => {
 	});
 	const [newTodo, setNewTodo] = useState<string>("");
 	const [newTodoId, setNewTodoId] = useState<number | null>(null);
-	const [deletingTodoId, setDeletingTodoId] = useState<number | null>(null);
+	const [_deletingTodoId, setDeletingTodoId] = useState<number | null>(null);
 	const [sortNewestFirst, setSortNewestFirst] = useState<boolean>(() => {
 		const savedSort = localStorage.getItem("tonyBaloneyToDoSort");
 		return savedSort ? savedSort === "newest" : false; // Default to oldest first
