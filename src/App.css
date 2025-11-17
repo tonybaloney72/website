@@ -122,6 +122,28 @@
 	background-color: var(--border);
 }
 
+@utility bg-primary-gradient {
+	background: radial-gradient(
+		circle at 50% 50%,
+		var(--bg-primary),
+		var(--bg-tertiary),
+		var(--bg-secondary),
+		var(--bg-primary)
+	);
+	background-size: 200% 200%;
+	animation: gradient-shift 20s ease 1;
+}
+
+@keyframes gradient-shift {
+	0%,
+	100% {
+		background-position: 0% 0%;
+	}
+	50% {
+		background-position: 100% 100%;
+	}
+}
+
 /* Text utilities */
 @utility text-primary {
 	color: var(--text-primary);

@@ -9,7 +9,7 @@ function App() {
 	return (
 		<HashRouter>
 			<ThemeProvider>
-				<div className='bg-primary min-h-screen flex flex-col'>
+				<div className='bg-primary-gradient min-h-screen flex flex-col'>
 					<NavBar />
 					<div className='flex-1'>
 						<PageTransition />

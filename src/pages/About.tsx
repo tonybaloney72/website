@@ -1,8 +1,6 @@
 import { motion, AnimatePresence } from "motion/react";
-import { useState, useRef, useEffect } from "react";
-import { FaLinkedin } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
-import { FaFileDownload } from "react-icons/fa";
+import { useState, useRef } from "react";
+import { FaLinkedin, FaGithub, FaFileDownload } from "react-icons/fa";
 import pensive_carribean from "../assets/pensive_carribean.jpg";
 import beignets from "../assets/beignets.jpg";
 import bowtie from "../assets/bowtie.jpg";
@@ -21,61 +19,22 @@ export const AboutPage = () => {
 	const [currentImageIndex, setCurrentImageIndex] = useState(initialImageIndex);
 	const [isHovering, setIsHovering] = useState(false);
 
-	// Track which images have been viewed
-	const [_viewedImages, setViewedImages] = useState<Set<number>>(
-		new Set([initialImageIndex]),
-	);
-
-	// Check localStorage to see if hint was previously dismissed
-	const [showHint, setShowHint] = useState(() => {
-		const hintDismissed = localStorage.getItem("imageCarouselHintDismissed");
-		return hintDismissed !== "true";
+	// State to control hint animation - only animate on first visit
+	const [shouldAnimateHint, setShouldAnimateHint] = useState(() => {
+		const hasShown = localStorage.getItem("hintAnimationShown");
+		return hasShown !== "true";
 	});
-
-	// Listen for storage changes to update hint visibility
-	useEffect(() => {
-		const handleStorageChange = () => {
-			const hintDismissed = localStorage.getItem("imageCarouselHintDismissed");
-			setShowHint(hintDismissed !== "true");
-		};
-
-		// Listen for storage events (cross-tab)
-		window.addEventListener("storage", handleStorageChange);
-
-		// Listen for custom event (same-tab updates from Nav button)
-		window.addEventListener("hintToggle", handleStorageChange);
-
-		return () => {
-			window.removeEventListener("storage", handleStorageChange);
-			window.removeEventListener("hintToggle", handleStorageChange);
-		};
-	}, []);
-
-	// Save to localStorage when hint is dismissed
-	const dismissHint = () => {
-		setShowHint(false);
-		localStorage.setItem("imageCarouselHintDismissed", "true");
-	};
-
-	// Track when a new image is viewed
-	const markImageAsViewed = (imageIndex: number) => {
-		setViewedImages(prev => {
-			const updated = new Set(prev);
-			updated.add(imageIndex);
-
-			// If all images have been viewed, dismiss the hint
-			if (updated.size === images.length && showHint) {
-				dismissHint();
-			}
-
-			return updated;
-		});
-	};
 
 	// Track touch positions for swipe detection
 	const touchStartX = useRef<number | null>(null);
 	const touchEndX = useRef<number | null>(null);
 	const minSwipeDistance = 50;
+
+	const numMap = {
+		1: "https://www.linkedin.com/in/anthony-michael-bologna/",
+		2: "https://github.com/tonybaloney72",
+		3: resumePDF,
+	} as const;
 
 	// Desktop: wheel scroll to cycle through images
 	const handleWheel = (e: React.WheelEvent) => {
@@ -94,7 +53,6 @@ export const AboutPage = () => {
 		}
 
 		setCurrentImageIndex(newIndex);
-		markImageAsViewed(newIndex);
 	};
 
 	// Mobile: touch handlers for swipe gestures
@@ -123,7 +81,6 @@ export const AboutPage = () => {
 			}
 
 			setCurrentImageIndex(newIndex);
-			markImageAsViewed(newIndex);
 		}
 	};
 
@@ -136,23 +93,15 @@ export const AboutPage = () => {
 			if (swipeDistance < minSwipeDistance) {
 				const newIndex = (currentImageIndex + 1) % images.length;
 				setCurrentImageIndex(newIndex);
-				markImageAsViewed(newIndex);
 			}
 		} else {
 			// If no touch interaction, allow click to cycle
 			const newIndex = (currentImageIndex + 1) % images.length;
 			setCurrentImageIndex(newIndex);
-			markImageAsViewed(newIndex);
 		}
 	};
 
 	const handleClick = (num: number) => {
-		const numMap = {
-			1: "https://www.linkedin.com/in/anthony-michael-bologna/",
-			2: "https://github.com/tonybaloney72",
-			3: resumePDF,
-		} as const;
-
 		const url = numMap[num as keyof typeof numMap];
 
 		window.open(url, "_blank", "noopener,noreferrer");
@@ -187,27 +136,34 @@ export const AboutPage = () => {
 							/>
 						</AnimatePresence>
 					</motion.div>
-					{showHint && (
-						<motion.div
-							initial={{ opacity: 0, y: -10 }}
-							animate={{ opacity: 1, y: 0 }}
-							exit={{ opacity: 0, y: -10 }}
-							transition={{ duration: 0.3 }}
-							className='text-md text-secondary text-center px-3 py-1.5 rounded-lg bg-secondary/50 backdrop-blur-sm'>
-							<motion.span
-								animate={{
-									y: [0, -5, 0],
-								}}
-								transition={{
-									duration: 1.5,
-									repeat: Infinity,
-									ease: "easeInOut",
-								}}
-								className='inline-block bg-tertiary px-2 py-1 rounded-lg'>
-								Scroll or tap to change the image
-							</motion.span>
-						</motion.div>
-					)}
+					<motion.div
+						initial={{ opacity: 0, y: -10 }}
+						animate={{ opacity: 1, y: 0 }}
+						transition={{ duration: 0.3 }}
+						className='text-md text-secondary text-center px-3 py-1.5 rounded-lg bg-secondary/50 backdrop-blur-sm'>
+						<motion.span
+							animate={
+								shouldAnimateHint
+									? {
+											y: [0, -5, 0],
+									  }
+									: { y: 0 }
+							}
+							transition={{
+								duration: 1.5,
+								repeat: shouldAnimateHint ? 3 : 0,
+								ease: "easeInOut",
+								onComplete: () => {
+									if (shouldAnimateHint) {
+										setShouldAnimateHint(false);
+										localStorage.setItem("hintAnimationShown", "true");
+									}
+								},
+							}}
+							className='inline-block bg-tertiary px-2 py-1 rounded-lg'>
+							Scroll or tap to change the image
+						</motion.span>
+					</motion.div>
 				</div>
 				<motion.div
 					initial={{ opacity: 0, y: 30 }}
@@ -231,8 +187,8 @@ export const AboutPage = () => {
 					</p>
 					<div className='mt-auto flex text-4xl gap-8 pt-2 md:pt-0'>
 						<motion.button
-							whileHover={{ scale: 1.1 }}
-							whileTap={{ scale: 0.95 }}
+							whileHover={{ scale: 1.08 }}
+							whileTap={{ scale: 0.96 }}
 							transition={{ duration: 0.2 }}>
 							<FaLinkedin
 								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
@@ -240,8 +196,8 @@ export const AboutPage = () => {
 							/>
 						</motion.button>
 						<motion.button
-							whileHover={{ scale: 1.1 }}
-							whileTap={{ scale: 0.95 }}
+							whileHover={{ scale: 1.08 }}
+							whileTap={{ scale: 0.96 }}
 							transition={{ duration: 0.2 }}>
 							<FaGithub
 								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'
@@ -249,8 +205,8 @@ export const AboutPage = () => {
 							/>
 						</motion.button>
 						<motion.button
-							whileHover={{ scale: 1.1 }}
-							whileTap={{ scale: 0.95 }}
+							whileHover={{ scale: 1.08 }}
+							whileTap={{ scale: 0.96 }}
 							transition={{ duration: 0.2 }}>
 							<FaFileDownload
 								className='hover:text-accent hover:cursor-pointer hover:transition duration-300'

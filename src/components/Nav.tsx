@@ -12,7 +12,6 @@ export const NavBar = () => (
 			<NavLink name='Projects' />
 		</div>
 		<div className='flex-1 flex justify-end items-center gap-2 md:gap-4'>
-			<HintToggleButton />
 			<ThemeSelector />
 		</div>
 	</div>
@@ -53,24 +52,6 @@ const NavLink = ({ name }: NavLinkProps) => {
 			<span className={`underline-animation ${isActive ? "active" : ""}`}>
 				{name}
 			</span>
-		</button>
-	);
-};
-
-const HintToggleButton = () => {
-	const toggleHint = () => {
-		const current =
-			localStorage.getItem("imageCarouselHintDismissed") === "true";
-		localStorage.setItem("imageCarouselHintDismissed", (!current).toString());
-		window.dispatchEvent(new Event("hintToggle"));
-	};
-
-	return (
-		<button
-			onClick={toggleHint}
-			className='text-lg md:text-xl text-secondary hover:text-accent hover:cursor-pointer transition-colors duration-300'
-			title='Toggle hint'>
-			Toggle Hint
 		</button>
 	);
 };
