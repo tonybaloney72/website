@@ -1,9 +1,9 @@
 import { useLocation, Routes, Route } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { AboutPage } from "../pages/About";
-import { ProjectPage } from "../pages/Projects";
-import { ToDoList } from "../pages/ToDoList";
+import { AboutPage } from "../pages/About.tsx";
+import { ProjectPage } from "../pages/Projects.tsx";
+import { ToDoList } from "../pages/ToDoList.tsx";
 
 // Define route order for determining slide direction
 // Routes with higher numbers slide in from the right (forward navigation)

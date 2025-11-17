@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { useTheme, type Theme } from "../context/themeProvider";
+import { useTheme, type Theme } from "../context/themeProvider.tsx";
 import { motion } from "motion/react";
 
 export const ThemeSelector = () => {

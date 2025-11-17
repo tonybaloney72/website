@@ -1,6 +1,6 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import { useTransition } from "react";
-import { ThemeSelector } from "./ThemeSelector";
+import { ThemeSelector } from "./ThemeSelector.tsx";
 
 export const NavBar = () => (
 	<div className='flex items-center h-16 md:h-24 p-2 md:p-6 w-full'>

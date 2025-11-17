@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../context/themeProvider";
+import { useTheme } from "../context/themeProvider.tsx";
 import { motion, AnimatePresence } from "motion/react";
 import {
 	FaTrashAlt,
