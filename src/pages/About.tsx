@@ -166,9 +166,9 @@ export const AboutPage = () => {
 	};
 
 	return (
-		<div className='flex flex-col gap-10 items-center'>
-			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-6 md:gap-12 max-w-[1280px] h-[480px]'>
-				<div className='w-1/2 h-full'>
+		<div className='flex flex-col gap-10 items-center pb-8 md:pb-0'>
+			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-6 md:gap-12 max-w-[1280px] md:h-[480px]'>
+				<div className='w-full md:w-1/2 h-full'>
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
 						animate={{ opacity: 1, y: 0 }}
@@ -183,7 +183,7 @@ export const AboutPage = () => {
 						className='max-w-[360px] min-w-[180px] hover:border-2 border-accent-secondary overflow-hidden relative cursor-pointer touch-none md:touch-auto w-full'>
 						{/* Loading placeholder - maintains space when image not loaded */}
 						{!isCurrentImageLoaded && (
-							<div className='w-full min-h-[480px] bg-tertiary flex items-center justify-center'>
+							<div className='w-full min-h-[300px] md:min-h-[480px] bg-tertiary flex items-center justify-center'>
 								<div className='w-16 h-16 border-4 border-accent-secondary border-t-transparent rounded-full animate-spin' />
 							</div>
 						)}
@@ -197,7 +197,7 @@ export const AboutPage = () => {
 									animate={{ opacity: 1, y: 0 }}
 									exit={{ opacity: 0, y: -20 }}
 									transition={{ duration: 0.3, ease: "easeInOut" }}
-									className='w-full h-auto object-cover pointer-events-none'
+									className='w-full h-auto object-contain md:object-cover pointer-events-none'
 									draggable={false}
 								/>
 							) : (

@@ -6,7 +6,7 @@ export const Footer = () => {
 	return (
 		<div
 			onClick={handleClick}
-			className='text-lg text-primary h-24 p-4 flex w-full justify-center'>
+			className='text-sm md:text-lg text-primary h-16 md:h-24 p-4 flex w-full justify-center'>
 			<p className='hover:cursor-pointer hover:text-accent hover:transition duration-300'>
 				Click here to schedule a meeting with me!
 			</p>
