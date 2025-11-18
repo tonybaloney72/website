@@ -166,8 +166,8 @@ export const AboutPage = () => {
 	};
 
 	return (
-		<div className='flex flex-col gap-10 items-center pb-8 md:pb-0'>
-			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-6 md:gap-12 max-w-[1280px] md:h-[480px]'>
+		<div className='flex flex-col items-center pb-0'>
+			<div className='flex flex-col items-center md:flex-row md:items-stretch justify-center gap-2 md:gap-12 max-w-[1280px] md:h-[480px]'>
 				<div className='w-full md:w-1/2 h-full'>
 					<motion.div
 						initial={{ opacity: 0, y: 30 }}
@@ -217,7 +217,7 @@ export const AboutPage = () => {
 						initial={{ opacity: 0, y: -10 }}
 						animate={{ opacity: 1, y: 0 }}
 						transition={{ duration: 0.3 }}
-						className='text-md text-secondary text-center px-3 py-1.5 rounded-lg bg-secondary/50 backdrop-blur-sm'>
+						className='text-md text-secondary text-center px-1 md:px-3 py-1 md:py-1.5 rounded-lg bg-secondary/50 backdrop-blur-sm'>
 						<motion.span
 							animate={
 								shouldAnimateHint
@@ -237,7 +237,7 @@ export const AboutPage = () => {
 									}
 								},
 							}}
-							className='inline-block bg-tertiary px-2 py-1 rounded-lg'>
+							className='text-xs md:text-base inline-block bg-tertiary px-1 md:px-2 py-1 rounded-lg'>
 							Scroll or tap to change the image
 						</motion.span>
 					</motion.div>
@@ -260,7 +260,7 @@ export const AboutPage = () => {
 						webistes. With an eye for detail, a desire to grow, and a passion to
 						build products that help people in their day to day life; I believe
 						I can contribute at a high level to any team - no matter the
-						challenge. me on.
+						challenge.
 					</p>
 					<div className='mt-auto flex text-4xl gap-8 pt-2 md:pt-0'>
 						<SocialButton icon={FaLinkedin} onClick={() => handleClick(1)} />

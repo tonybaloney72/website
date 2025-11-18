@@ -63,7 +63,7 @@ export const PageTransition = () => {
 						duration: 0.3,
 						ease: "easeInOut",
 					}}
-					className='w-full p-6 md:p-10'>
+					className='w-full px-4 py-0 md:p-10'>
 					<Routes location={location}>
 						<Route path='/' element={<AboutPage />} />
 						<Route path='/projects' element={<ProjectPage />}>

@@ -21,7 +21,7 @@ const ProjectCard = ({
 }: ProjectCardProps) => {
 	const isImageLeft = imagePosition === "left";
 	const flexDirection = isImageLeft ? "flex-col-reverse" : "flex-col";
-	const textPadding = isImageLeft ? "pr-3" : "pl-3";
+	const textPadding = isImageLeft ? "pr-0 md:pr-3" : "pl-0 md:pl-3";
 
 	return (
 		<motion.div
@@ -30,12 +30,13 @@ const ProjectCard = ({
 			whileTap={{ scale: 0.99 }}
 			transition={{ duration: 0.1 }}
 			onClick={onClick}>
-			{isImageLeft && <img src={image} className='w-1/3' />}
-			<div className={`flex flex-col gap-4 w-2/3 py-1 ${textPadding}`}>
+			{isImageLeft && <img src={image} className='w-full md:w-1/3' />}
+			<div
+				className={`flex flex-col gap-4 w-full md:w-2/3 py-0 md:py-1 ${textPadding}`}>
 				<p className='text-2xl text-primary text-center'>{title}</p>
 				<p className='text-lg text-secondary'>{description}</p>
 			</div>
-			{!isImageLeft && <img src={image} className='w-1/3' />}
+			{!isImageLeft && <img src={image} className='w-full md:w-1/3' />}
 		</motion.div>
 	);
 };

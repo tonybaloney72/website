@@ -46,7 +46,7 @@ const NavLink = ({ name }: NavLinkProps) => {
 
 	return (
 		<button
-			className='text-xl md:text-3xl text-primary hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
+			className='text-lg md:text-3xl text-primary hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed'
 			onClick={handleClick}
 			disabled={isPending && !isActive}>
 			<span className={`underline-animation ${isActive ? "active" : ""}`}>
