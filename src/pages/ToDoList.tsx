@@ -8,6 +8,8 @@ import {
 	FaUndo,
 	FaSortAmountDown,
 	FaSortAmountUp,
+	FaPlus,
+	FaArrowLeft,
 } from "react-icons/fa";
 
 interface Todo {
@@ -110,39 +112,39 @@ export const ToDoList = () => {
 
 	return (
 		<div className='flex flex-col items-center w-full'>
-			<div className='flex items-center w-full relative'>
+			<div className='flex items-center w-full relative max-w-[320px] sm:max-w-[480px] md:max-w-[640px] lg:max-w-[800px]'>
 				<button
 					onClick={handleBack}
-					className='bg-secondary text-primary items-center px-2 py-1 rounded-lg hover:opacity-80 transition-opacity hover:cursor-pointer'>
-					Back
+					className=' flex gap-2 text-sm sm:text-base md:text-lg bg-secondary text-primary items-center px-2 py-1 rounded-lg hover:opacity-80 transition-opacity hover:cursor-pointer'>
+					<FaArrowLeft /> Back
 				</button>
-				<h1 className='text-3xl text-primary absolute left-1/2 transform -translate-x-1/2'>
+				<h1 className='text-xl sm:text-2xl md:text-3xl text-primary absolute left-1/2 transform -translate-x-1/2'>
 					To Do List
 				</h1>
+				<button
+					onClick={toggleSortOrder}
+					className='text-primary hover:text-accent hover:transition duration-300 hover:cursor-pointer p-2 ml-auto'
+					title={sortNewestFirst ? "Newest first" : "Oldest first"}>
+					{sortNewestFirst ? <FaSortAmountDown /> : <FaSortAmountUp />}
+				</button>
 			</div>
-			<div className='flex gap-4 pt-4 w-[320px] sm:w-[480px] md:w-[640px] lg:w-[800px] justify-center items-center'>
+			<div className='flex gap-2 pt-4 w-full max-w-[320px] sm:max-w-[480px] md:max-w-[640px] lg:max-w-[800px] items-center'>
 				<input
 					type='text'
 					value={newTodo}
 					onChange={e => setNewTodo(e.target.value)}
 					onKeyDown={e => e.key === "Enter" && addTodo()}
-					className={`md:w-[300px] lg:w-[400px] pl-2 py-1 border-2 rounded border-border focus:outline-none focus:border-accent transition-colors ${
+					className={`flex-1 pl-2 py-1 border-2 rounded border-border focus:outline-none focus:border-accent transition-colors ${
 						theme !== "light" ? "bg-text-primary" : "bg-secondary"
 					}`}
 				/>
 				<button
 					onClick={addTodo}
-					className='text-bg-secondary px-4 py-2 bg-accent hover:bg-accent-secondary hover:transition duration-300 hover:cursor-pointer rounded-lg'>
-					Add To-Do
-				</button>
-				<button
-					onClick={toggleSortOrder}
-					className='text-primary hover:text-accent hover:transition duration-300 hover:cursor-pointer p-2'
-					title={sortNewestFirst ? "Newest first" : "Oldest first"}>
-					{sortNewestFirst ? <FaSortAmountDown /> : <FaSortAmountUp />}
+					className='text-bg-secondary px-3 py-2 bg-accent hover:bg-accent-secondary hover:transition duration-300 hover:cursor-pointer rounded-lg shrink-0'>
+					<FaPlus />
 				</button>
 			</div>
-			<ul className='flex flex-col gap-2 text-lg text-primary pt-4 w-[320px] sm:w-[480px] md:w-[640px] lg:w-[800px]'>
+			<ul className='flex flex-col gap-2 text-lg text-primary pt-4 w-full max-w-[320px] sm:max-w-[480px] md:max-w-[640px] lg:w-[800px]'>
 				<AnimatePresence mode='popLayout'>
 					{sortedTodos.map(todo => (
 						<motion.li
