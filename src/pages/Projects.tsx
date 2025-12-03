@@ -1,6 +1,7 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import succt from "../assets/succt.png";
 import todo from "../assets/todo.png";
+import potLuck from "../assets/potLuck.png";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
@@ -70,6 +71,19 @@ const todoDescription = `Tried, tested, and true - the To Do List is every Web D
 							and some styling and flair, it'd be weird if you didn't have one
 							these in your portfolio.`;
 
+const PotLuckApp = () => (
+	<>
+		Pot Luck App
+		<br />
+		<span className='text-base text-accent'>
+			Vite, React 19, TypeScript, Redux Toolkit, TailwindCSS v4, React Router
+			v7, Supabase (Auth, Storage, Database)
+		</span>
+	</>
+);
+
+const potLuckAppDescription = `Potluck App is a modern web application designed to simplify the organization of potluck events. Users can create events, invite friends, manage contributions, and stay connected through messaging and notifications. Built with a focus on user experience and real-time collaboration.`;
+
 export const ProjectPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -82,6 +96,10 @@ export const ProjectPage = () => {
 
 	const handleTodo = () => {
 		navigate("/projects/todo");
+	};
+
+	const handlePotLuck = () => {
+		window.open("https://tony-baloney-potluck.vercel.app/", "blank");
 	};
 
 	return (
@@ -101,6 +119,13 @@ export const ProjectPage = () => {
 						image={todo}
 						onClick={handleTodo}
 						imagePosition='left'
+					/>
+					<ProjectCard
+						title={<PotLuckApp />}
+						description={potLuckAppDescription}
+						image={potLuck}
+						onClick={handlePotLuck}
+						imagePosition='right'
 					/>
 				</>
 			)}
