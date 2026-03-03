@@ -1,7 +1,7 @@
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import succt from "../assets/succt.png";
+import succt from "../assets/SUCCT.png";
 import todo from "../assets/todo.png";
-import potLuck from "../assets/potLuck.png";
+import potLuck from "../assets/PotLuck.png";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
