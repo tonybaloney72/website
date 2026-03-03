@@ -5,7 +5,7 @@ import { Home } from "./components/Home.tsx";
 
 function App() {
 	return (
-		<HashRouter basename="/website">
+		<HashRouter>
 			<ThemeProvider>
 				<Home />
 			</ThemeProvider>
