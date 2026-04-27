@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { AboutPage } from "../pages/About.tsx";
 import { ProjectPage } from "../pages/Projects.tsx";
 import { ToDoList } from "../pages/ToDoList.tsx";
+import { Wordle } from "../pages/Wordle.tsx";
 
 // Define route order for determining slide direction
 // Routes with higher numbers slide in from the right (forward navigation)
@@ -12,6 +13,7 @@ const ROUTE_ORDER: Record<string, number> = {
 	"/": 0, // About page - first in sequence
 	"/projects": 1, // Projects page - second in sequence
 	"/projects/todo": 2, // Contact page - third in sequence
+	"/projects/wordle": 3, // Wordle page - fourth in sequence
 };
 
 export const PageTransition = () => {
@@ -68,6 +70,7 @@ export const PageTransition = () => {
 						<Route path='/' element={<AboutPage />} />
 						<Route path='/projects' element={<ProjectPage />}>
 							<Route path='todo' element={<ToDoList />} />
+							<Route path='wordle' element={<Wordle />} />
 						</Route>
 					</Routes>
 				</motion.div>

@@ -2,6 +2,7 @@ import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import succt from "../assets/SUCCT.png";
 import todo from "../assets/todo.png";
 import potLuck from "../assets/PotLuck.png";
+import wordle from "../assets/wordle.png";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
@@ -31,13 +32,27 @@ const ProjectCard = ({
 			whileTap={{ scale: 0.99 }}
 			transition={{ duration: 0.1 }}
 			onClick={onClick}>
-			{isImageLeft && <img src={image} className='w-full md:w-1/3' />}
+			{isImageLeft && (
+				<div className='w-full md:w-1/3 h-56 md:h-auto md:min-h-[220px] overflow-hidden rounded-sm'>
+					<img
+						src={image}
+						className='w-full h-full object-cover object-center'
+					/>
+				</div>
+			)}
 			<div
 				className={`flex flex-col gap-4 w-full md:w-2/3 py-0 md:py-1 ${textPadding}`}>
 				<p className='text-2xl text-primary text-center'>{title}</p>
 				<p className='text-lg text-secondary'>{description}</p>
 			</div>
-			{!isImageLeft && <img src={image} className='w-full md:w-1/3' />}
+			{!isImageLeft && (
+				<div className='w-full md:w-1/3 h-56 md:h-auto md:min-h-[220px] overflow-hidden rounded-sm'>
+					<img
+						src={image}
+						className='w-full h-full object-cover object-center'
+					/>
+				</div>
+			)}
 		</motion.div>
 	);
 };
@@ -84,11 +99,23 @@ const PotLuckApp = () => (
 
 const potLuckAppDescription = `Potluck App is a modern web application designed to simplify the organization of potluck events. Users can create events, invite friends, manage contributions, and stay connected through messaging and notifications. Built with a focus on user experience and real-time collaboration.`;
 
+const WordleTitle = () => (
+	<>
+		Wordle Clone
+		<br />
+		<span className='text-base text-accent'>
+			React, TypeScript, TailwindCSS
+		</span>
+	</>
+);
+
+const wordleDescription = `A Wordle-style guessing game with a random five-letter word each round, color feedback for every guess, and a fast restart flow for repeat plays.`;
+
 export const ProjectPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const isTodoRoute = location.pathname === "/projects/todo";
+	const isNestedProjectRoute = location.pathname !== "/projects";
 
 	const handleSUCCTMEE = () => {
 		window.open("https://tonybaloney72.github.io/SuperCoinCollector/", "blank");
@@ -102,9 +129,13 @@ export const ProjectPage = () => {
 		window.open("https://tony-baloney-potluck.vercel.app/", "blank");
 	};
 
+	const handleWordle = () => {
+		navigate("/projects/wordle");
+	};
+
 	return (
 		<div className='flex flex-col gap-10 items-center'>
-			{!isTodoRoute && (
+			{!isNestedProjectRoute && (
 				<>
 					<ProjectCard
 						title={<SuperUltraTitle />}
@@ -126,6 +157,13 @@ export const ProjectPage = () => {
 						image={potLuck}
 						onClick={handlePotLuck}
 						imagePosition='right'
+					/>
+					<ProjectCard
+						title={<WordleTitle />}
+						description={wordleDescription}
+						image={wordle}
+						onClick={handleWordle}
+						imagePosition='left'
 					/>
 				</>
 			)}
