@@ -3,6 +3,7 @@ import succt from "../assets/SUCCT.png";
 import todo from "../assets/todo.png";
 import potLuck from "../assets/PotLuck.png";
 import wordle from "../assets/wordle.png";
+import exercise from "../assets/exercise.png";
 import { motion } from "motion/react";
 import type { ReactNode } from "react";
 
@@ -111,6 +112,18 @@ const WordleTitle = () => (
 
 const wordleDescription = `A Wordle-style guessing game with a random five-letter word each round, color feedback for every guess, and a fast restart flow for repeat plays.`;
 
+const ExerciseTitle = () => (
+	<>
+		Exercise App
+		<br />
+		<span className='text-base text-accent'>
+			Next.js, TypeScript, Zustand, TailwindCSS
+		</span>
+	</>
+);
+
+const exerciseDescription = `A workout tracking app that builds a daily routine from push, pull, and core muscle groups. View today's workout structure, target muscles, and log your progress across the week.`;
+
 export const ProjectPage = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -133,37 +146,48 @@ export const ProjectPage = () => {
 		navigate("/projects/wordle");
 	};
 
+	const handleExercise = () => {
+		window.open("https://my-exercise-tracking-app.vercel.app/", "blank");
+	};
+
 	return (
 		<div className='flex flex-col gap-10 items-center'>
 			{!isNestedProjectRoute && (
 				<>
 					<ProjectCard
-						title={<SuperUltraTitle />}
-						description={superUltraDescription}
-						image={succt}
-						onClick={handleSUCCTMEE}
+						title={<ExerciseTitle />}
+						description={exerciseDescription}
+						image={exercise}
+						onClick={handleExercise}
 						imagePosition='right'
-					/>
-					<ProjectCard
-						title={<TodoTitle />}
-						description={todoDescription}
-						image={todo}
-						onClick={handleTodo}
-						imagePosition='left'
 					/>
 					<ProjectCard
 						title={<PotLuckApp />}
 						description={potLuckAppDescription}
 						image={potLuck}
 						onClick={handlePotLuck}
-						imagePosition='right'
+						imagePosition='left'
 					/>
 					<ProjectCard
 						title={<WordleTitle />}
 						description={wordleDescription}
 						image={wordle}
 						onClick={handleWordle}
+						imagePosition='right'
+					/>
+					<ProjectCard
+						title={<SuperUltraTitle />}
+						description={superUltraDescription}
+						image={succt}
+						onClick={handleSUCCTMEE}
 						imagePosition='left'
+					/>
+					<ProjectCard
+						title={<TodoTitle />}
+						description={todoDescription}
+						image={todo}
+						onClick={handleTodo}
+						imagePosition='right'
 					/>
 				</>
 			)}
